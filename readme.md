@@ -1,3 +1,4 @@
+# Penguins of Madagascar - MLOps Assignment
 
 ## Approach
 
@@ -30,19 +31,26 @@
   - Evaluate model performance (achieving 100% accuracy on the test set, though further investigation may be needed for potential overfitting or leakage).
   - Save the trained model and label encoder to `penguin_classifier.pkl`.
 
-### Task 4: Automated Daily Predictions
+### Task 4: Automated Daily Predictions & GitHub Pages
 - **File:** `daily_prediction.py`
 - **Approach:**
   - Fetch new penguin data every day from the provided API endpoint.
   - Load the saved trained model (`penguin_classifier.pkl`).
   - Preprocess the incoming data and make predictions.
   - Save the prediction results to `latest_prediction.json`.
+  - **Update `docs/index.html`** so that GitHub Pages always displays the latest prediction.
 
 - **File:** `.github/workflows/predict.yml`
 - **Approach:**
   - A GitHub Actions workflow is set up to run `daily_prediction.py` every day at 7:30 AM UTC.
-  - The workflow commits and pushes the updated prediction file (`latest_prediction.json`) back to the repository.
-  
+  - The workflow commits and pushes the updated prediction file (`latest_prediction.json`) and `docs/index.html` to the repository.
+  - This ensures GitHub Pages **displays the latest prediction**.
+
+- **GitHub Pages Setup:**
+  - The project **hosts a public webpage** displaying the latest penguin prediction at:  
+    👉 **[https://niklas2165.github.io/Assignment_ML-OPS/](https://niklas2165.github.io/Assignment_ML-OPS/)**
+  - The webpage automatically updates daily.
+
 ## Usage Instructions
 1. **Data Preparation:**  
    Run `data_to_db.py` to create and populate the SQLite database (`penguins.db`).
@@ -53,12 +61,16 @@
 3. **Model Training:**  
    Run `train_model.py` to train the classifier and save the model to `penguin_classifier.pkl`.
 
-4. **Daily Predictions:**  
-   The `daily_prediction.py` script will be triggered automatically by the GitHub Actions workflow defined in `.github/workflows/predict.yml` every day at 7:30 AM UTC. You can also run it manually to test the prediction process.
+4. **Daily Predictions & Web Updates:**  
+   - The `daily_prediction.py` script will be triggered automatically by the GitHub Actions workflow (`.github/workflows/predict.yml`) every day at 7:30 AM UTC.  
+   - The **latest prediction** is displayed on GitHub Pages at:  
+     👉 **[https://niklas2165.github.io/Assignment_ML-OPS/](https://niklas2165.github.io/Assignment_ML-OPS/)**  
 
 ## Final Notes
 - **Model Accuracy:**  
   The model achieved 100% accuracy on the test set. While promising, further checks (e.g., cross-validation) are recommended to rule out overfitting or data leakage.
 
-- **Automation:**  
-  The project is designed to automatically fetch new data, make predictions, and update the results on GitHub Pages via GitHub Actions, making it a complete MLOps pipeline.
+- **Automation & Deployment:**  
+  - The project **automatically fetches new data, makes predictions, and updates a live webpage**.  
+  - Predictions are stored in `latest_prediction.json`, and GitHub Pages serves the results via `docs/index.html`.  
+  - Everything runs **without manual intervention** through GitHub Actions.
