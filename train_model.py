@@ -28,18 +28,19 @@ def preprocess_data(df):
     X = df.drop(columns=["species"])  # Features
     y = df["species"]  # Target (classification label)
 
-    # Standardize numerical features
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    return X_scaled, y, label_encoder  # Return label encoder too
-
-def train_and_save_model(X, y, label_encoder, model_filename="penguin_classifier.pkl"):
-    """Train a RandomForest classifier and save the trained model."""
-    
-    # Split dataset into training (80%) and testing (20%)
+    # Split dataset before scaling
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    # Standardize numerical features
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)  # ✅ Fit only on training data
+    X_test_scaled = scaler.transform(X_test)  # ✅ Transform test data separately
+
+    return X_train_scaled, X_test_scaled, y_train, y_test, label_encoder, scaler
+
+def train_and_save_model(X_train, X_test, y_train, y_test, label_encoder, scaler, model_filename="penguin_classifier.pkl", scaler_filename="scaler.pkl"):
+    """Train a RandomForest classifier and save the trained model and scaler."""
+    
     # Train a classifier (Random Forest)
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train, y_train)
@@ -56,14 +57,19 @@ def train_and_save_model(X, y, label_encoder, model_filename="penguin_classifier
     with open(model_filename, "wb") as f:
         pickle.dump({"model": model, "encoder": label_encoder}, f)
     
+    # Save the scaler for use in daily_prediction.py
+    with open(scaler_filename, "wb") as f:
+        pickle.dump(scaler, f)
+
     print(f"\nModel saved as {model_filename}")
+    print(f"Scaler saved as {scaler_filename}")
 
 if __name__ == "__main__":
     # Load data
     df = load_data_from_db()
 
     # Preprocess data
-    X, y, encoder = preprocess_data(df)
+    X_train, X_test, y_train, y_test, encoder, scaler = preprocess_data(df)
 
     # Train and save model
-    train_and_save_model(X, y, encoder)  # Pass encoder
+    train_and_save_model(X_train, X_test, y_train, y_test, encoder, scaler)
