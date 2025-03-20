@@ -3,8 +3,8 @@ name: Daily Penguin Prediction
 on:
   schedule:
     - cron: "30 7 * * *"  # Runs daily at 7:30 AM UTC
+  workflow_dispatch:
 
-  workflow_dispatch:  # Allows manual trigger
 jobs:
   run-prediction:
     runs-on: ubuntu-latest
@@ -24,10 +24,9 @@ jobs:
       - name: Run Prediction Script
         run: python daily_prediction.py
 
-      - name: Commit and Push Prediction
+      - name: Commit and Push Prediction & HTML
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@users.noreply.github.com"
-          git add latest_prediction.json
-          git commit -m "Updated daily penguin prediction"
-          git push
+          git add latest_prediction.json docs/index.html
+          git diff --staged --quiet || (git commit -m "Updated daily penguin prediction and HTML" && git push)
