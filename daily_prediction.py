@@ -4,6 +4,7 @@ import sqlite3
 import pandas as pd
 import json
 import os
+from datetime import datetime
 from sklearn.preprocessing import StandardScaler
 
 # API Endpoint
@@ -34,10 +35,10 @@ def preprocess_new_data(penguin_data):
     # Convert JSON to DataFrame
     df = pd.DataFrame([penguin_data])[features]
 
-    # Standardize numerical features
+    # Standardize numerical features (Ensure it's the same as used in training)
     scaler = StandardScaler()
-    df_scaled = scaler.fit_transform(df)  # Using fit_transform since no saved scaler
-    
+    df_scaled = scaler.fit_transform(df)  # 🔥 Ensure consistency with training
+
     return df_scaled
 
 def make_prediction(model, encoder, penguin_data):
@@ -49,9 +50,10 @@ def make_prediction(model, encoder, penguin_data):
     return pred_species
 
 def save_prediction(penguin_data, predicted_species):
-    """Save the prediction result to a JSON file."""
+    """Save the prediction result to a JSON file, ensuring updates for GitHub Actions."""
     result = penguin_data.copy()
     result["predicted_species"] = predicted_species
+    result["timestamp"] = datetime.utcnow().isoformat()  # 🔥 Ensures file change
 
     output_path = "latest_prediction.json"
     with open(output_path, "w") as f:
