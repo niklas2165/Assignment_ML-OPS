@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Penguin Prediction</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: #f9f9f9; padding: 20px; border-radius: 10px; }
-        h1 { color: #333; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Latest Penguin Prediction</h1>
-        <p><strong>Predicted Species:</strong> <span id="species">Loading...</span></p>
-        <p><strong>Prediction Time:</strong> <span id="timestamp">Loading...</span></p>
-    </div>
 
-    <script>
-        fetch('../latest_prediction.json')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("species").textContent = data.predicted_species;
-                document.getElementById("timestamp").textContent = new Date(data.timestamp).toLocaleString();
-            })
-            .catch(error => {
-                console.error("Error fetching prediction:", error);
-            });
-    </script>
-</body>
-</html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Daily Penguin Prediction</title>
+        <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+            .container { max-width: 600px; margin: auto; background: #f9f9f9; padding: 20px; border-radius: 10px; }
+            h1 { color: #333; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Latest Penguin Prediction</h1>
+            <p><strong>Predicted Species:</strong> Adelie</p>
+            <p><strong>Prediction Time:</strong> 2025-03-20T16:54:38.372839</p>
+        </div>
+    </body>
+    </html>
+    
