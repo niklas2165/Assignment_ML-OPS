@@ -12,7 +12,7 @@ API_URL = "http://130.225.39.127:8000/new_penguin/"
 # Paths for model, scaler, and output files
 MODEL_PATH = "penguin_classifier.pkl"
 SCALER_PATH = "scaler.pkl"
-JSON_OUTPUT_PATH = "latest_prediction.json"
+JSON_OUTPUT_PATH = "docs/latest_prediction.json"
 HTML_OUTPUT_PATH = "docs/index.html"
 
 def load_model_and_scaler():
