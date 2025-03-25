@@ -4,14 +4,19 @@ FROM python:3.11-slim
 # Set working directory inside container
 WORKDIR /app
 
-# Copy files
+# Install supervisor
+RUN apt-get update && \
+    apt-get install -y supervisor && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy all files into container
 COPY . /app
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose ports (if needed)
-EXPOSE 8000
-
-# Start Supervisor
+# Default command
 CMD ["supervisord", "-c", "/app/supervisord.conf"]
+
+EXPOSE 8000
