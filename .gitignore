@@ -1,0 +1,19 @@
+# Bytecode files
+__pycache__/
+*.pyc
+
+# SQLite DB & Pickle files (optional)
+*.db
+*.pkl
+
+# Prediction output (optional)
+latest_prediction.json
+
+# Docker cache
+*.log
+*.pid
+*.sock
+
+# VSCode settings and other system files
+.vscode/
+.DS_Store
